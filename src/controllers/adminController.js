@@ -60,4 +60,23 @@ const getWatchStats = async (request, response, next) => {
   }
 };
 
-module.exports = { getUsers, getUserById, deleteUser, getWatchStats };
+const getWatchActivity = async (request, response, next) => {
+  try {
+    const activities = await Watchlist.find()
+      .populate('user', 'name email')
+      .populate('targetId', 'name title')
+      .sort({ createdAt: -1 });
+
+    return response.status(200).json({ activities });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = {
+  getUsers,
+  getUserById,
+  deleteUser,
+  getWatchStats,
+  getWatchActivity,
+};
