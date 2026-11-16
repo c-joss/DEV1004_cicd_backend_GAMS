@@ -8,6 +8,9 @@ const adminController = require('../controllers/adminController');
 // GET /admin/watch-stats — get watchlist statistics
 router.get('/watch-stats', verifyToken, isAdmin, adminController.getWatchStats);
 
+// GET /admin/watch-activity — list watchlist activities
+router.get('/watch-activity', verifyToken, isAdmin, adminController.getWatchActivity);
+
 // GET /admin/users — list all users
 router.get('/users', verifyToken, isAdmin, adminController.getUsers);
 
