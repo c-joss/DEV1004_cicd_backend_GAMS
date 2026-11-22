@@ -115,6 +115,13 @@ describe('POST /contracts/:id/accept', () => {
     expect(response.status).toBe(201);
     expect(response.body.instructions).toBeDefined();
   });
+  it('returns 409 when the user has already accepted the contract', async () => {
+    const response = await request(app)
+      .post(`/contracts/${contractId}/accept`)
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(409);
+    expect(response.body.error).toBe('You have already accepted this contract.');
+  });
 
   it('returns 404 when contract does not exist', async () => {
     const response = await request(app)

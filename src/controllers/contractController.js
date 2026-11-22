@@ -95,6 +95,15 @@ const acceptContract = async (request, response, next) => {
       return next({ status: 400, message: 'Contract is not currently available.' });
     }
 
+    const alreadyAccepted = await ContractAcceptance.findOne({
+      user: request.user.id,
+      contract: contract._id,
+    });
+
+    if (alreadyAccepted) {
+      return next({ status: 409, message: 'You have already accepted this contract.' });
+    }
+
     contract.currentAcceptances += 1;
     await contract.save();
 

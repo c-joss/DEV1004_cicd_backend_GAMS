@@ -105,6 +105,13 @@ describe('POST /items/:id/reserve', () => {
     expect(response.status).toBe(201);
     expect(response.body.reservationNumber).toBeDefined();
   });
+  it('returns 409 when the user has already reserved the item', async () => {
+    const response = await request(app)
+      .post(`/items/${itemId}/reserve`)
+      .set('Authorization', `Bearer ${userToken}`);
+    expect(response.status).toBe(409);
+    expect(response.body.error).toBe('You have already reserved this item.');
+  });
 
   it('returns 404 when item does not exist', async () => {
     const response = await request(app)
