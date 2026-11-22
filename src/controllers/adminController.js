@@ -69,7 +69,6 @@ const getWatchStats = async (request, response, next) => {
   }
 };
 
-
 const getWatchActivity = async (request, response, next) => {
   try {
     const activities = await Watchlist.find()
