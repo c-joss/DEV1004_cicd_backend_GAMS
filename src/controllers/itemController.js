@@ -88,6 +88,15 @@ const reserveItem = async (request, response, next) => {
       return next({ status: 400, message: 'Item is currently unavailable.' });
     }
 
+    const alreadyReserved = await Reservation.findOne({
+      user: request.user.id,
+      item: item._id,
+    });
+
+    if (alreadyReserved) {
+      return next({ status: 409, message: 'You have already reserved this item.' });
+    }
+
     item.stockQuantity -= 1;
     await item.save();
 
